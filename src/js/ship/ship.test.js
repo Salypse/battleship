@@ -2,10 +2,10 @@ import { Ship } from "./ship.js";
 
 
 test("hit count increases on call", () => {
-    const testShip = new Ship(0)
+    const ship = new Ship(0)
 
-    testShip.hit()
-    expect(testShip).toHaveProperty("hits", 1)
+    ship.hit()
+    expect(ship).toHaveProperty("hits", 1)
 })
 
 test("Doesnt add to hit total if ship is sunk", () => {
@@ -19,9 +19,9 @@ test("Doesnt add to hit total if ship is sunk", () => {
 })
 
 test("Is given ship sunk", () => {
-    const testShip = new Ship(4)
-    testShip.hits = 4
+    const ship = new Ship(4)
+    ship.hits = 4
 
-    testShip.isSunk()
-    expect(testShip).toHaveProperty("hasSank", true)
+    ship.isSunk()
+    expect(ship).toHaveProperty("hasSank", true)
 })
