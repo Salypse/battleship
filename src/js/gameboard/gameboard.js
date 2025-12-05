@@ -13,10 +13,16 @@ export class Gameboard {
 
    placeShip(coordinate, ship) {
       //Find cells ship will be placed on
-      const cellsToPlace = findCells(coordinate, ship.length);
+      const cellsToPlace = this.findCells(coordinate, ship.length);
 
-      if (isValidCells(cellsToPlace)) {
+      if (this.isValidCells(cellsToPlace)) {
          //Place ship in gameboard
+         for (let cell of cellsToPlace) {
+            const x = cell[0];
+            const y = cell[1];
+
+            this.gameBoard[x][y].ship = ship;
+         }
       }
    }
 
@@ -28,7 +34,7 @@ export class Gameboard {
 
       while (cells.length < length) {
          if (this.rotateShip === true) {
-            cells.push([x, ++y]);
+            cells.push([x, --y]);
          } else {
             cells.push([++x, y]);
          }

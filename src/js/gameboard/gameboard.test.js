@@ -33,11 +33,11 @@ test("Find correct cells for given coordinate", () => {
    //Rotate
    board.rotateShip = true;
 
-   expect(board.findCells([3, 2], 4)).toEqual([
-      [3, 2],
-      [3, 3],
-      [3, 4],
+   expect(board.findCells([3, 6], 4)).toEqual([
+      [3, 6],
       [3, 5],
+      [3, 4],
+      [3, 3],
    ]);
 });
 
@@ -62,4 +62,32 @@ test("Correctly determines if cells are invalid", () => {
          [2, 0],
       ])
    ).toBe(false);
+});
+
+test("Place ship onto gameboard", () => {
+   const board = new Gameboard();
+
+   class Ship {
+      constructor(length) {
+         this.length = length;
+      }
+   }
+
+   //Vertical placement
+   const testShip1 = new Ship(4);
+
+   board.placeShip([0, 0], testShip1);
+   expect(board.gameBoard[0][0]).toHaveProperty("ship", testShip1);
+   expect(board.gameBoard[1][0]).toHaveProperty("ship", testShip1);
+   expect(board.gameBoard[2][0]).toHaveProperty("ship", testShip1);
+   expect(board.gameBoard[3][0]).toHaveProperty("ship", testShip1);
+
+   //Horizontal placement
+   const testShip2 = new Ship(3);
+   board.rotateShip = true;
+
+   board.placeShip([4, 5], testShip2);
+   expect(board.gameBoard[4][5]).toHaveProperty("ship", testShip2);
+   expect(board.gameBoard[4][4]).toHaveProperty("ship", testShip2);
+   expect(board.gameBoard[4][3]).toHaveProperty("ship", testShip2);
 });
