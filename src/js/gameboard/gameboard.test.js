@@ -40,3 +40,26 @@ test("Find correct cells for given coordinate", () => {
       [3, 5],
    ]);
 });
+
+test("Correctly determines if cells are invalid", () => {
+   const board = new Gameboard();
+
+   //Out of bounds nodes
+   expect(
+      board.isValidCells([
+         [9, 9],
+         [9, 10],
+         [9, 11],
+      ])
+   ).toBe(false);
+
+   //Given cell already has a ship
+   board.gameBoard[0][0].ship = true;
+   expect(
+      board.isValidCells([
+         [0, 0],
+         [1, 0],
+         [2, 0],
+      ])
+   ).toBe(false);
+});

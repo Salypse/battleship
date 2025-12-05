@@ -15,9 +15,9 @@ export class Gameboard {
       //Find cells ship will be placed on
       const cellsToPlace = findCells(coordinate, ship.length);
 
-      //Check if ship when placed will be out of bounds
-      //Check if any of the cells already have a ship
-      //Place ship in gameboard
+      if (isValidCells(cellsToPlace)) {
+         //Place ship in gameboard
+      }
    }
 
    findCells(coordinate, length) {
@@ -34,5 +34,24 @@ export class Gameboard {
          }
       }
       return cells;
+   }
+
+   isValidCells(cells) {
+      //Check if ship when placed will be out of bounds
+      for (let cell of cells) {
+         const x = cell[0];
+         const y = cell[1];
+
+         //Check if ship when placed will be out of bounds
+         if (x < 0 || x >= 10 || y < 0 || y >= 10) {
+            return false;
+         }
+
+         //Check if any of the cells already have a ship
+         if (this.gameBoard[x][y].ship !== null) {
+            return false;
+         }
+      }
+      return true;
    }
 }
