@@ -1,4 +1,6 @@
+import { EntryPlugin } from "webpack";
 import { Gameboard } from "./gameboard.js";
+import { Ship } from "../ship/ship.js";
 
 test("Create a 10x10 grid", () => {
    const board = new Gameboard();
@@ -14,7 +16,7 @@ test("Every grid cell has correct default values", () => {
       row.forEach(
          (cell) => (
             expect(cell).toHaveProperty("ship", null),
-            expect(cell).toHaveProperty("attacked", false)
+            expect(cell).toHaveProperty("isHit", undefined)
          )
       )
    );
@@ -67,12 +69,6 @@ test("Correctly determines if cells are invalid", () => {
 test("Place ship onto gameboard", () => {
    const board = new Gameboard();
 
-   class Ship {
-      constructor(length) {
-         this.length = length;
-      }
-   }
-
    //Vertical placement
    const testShip1 = new Ship(4);
 
@@ -90,4 +86,29 @@ test("Place ship onto gameboard", () => {
    expect(board.gameBoard[4][5]).toHaveProperty("ship", testShip2);
    expect(board.gameBoard[4][4]).toHaveProperty("ship", testShip2);
    expect(board.gameBoard[4][3]).toHaveProperty("ship", testShip2);
+});
+
+test("receiveAttack updates a ship total hit value if hit", () => {
+   const board = new Gameboard();
+   const testShip1 = new Ship(1);
+   const testShip2 = new Ship(3);
+
+   board.placeShip([0, 0], testShip1);
+   board.receieveAttack([0, 0]);
+   expect(testShip1.hits).toBe(1);
+   expect(board.gameBoard[0][0].isHit).toBe(true);
+
+   //Ship longer than 1 updates value
+   board.placeShip([4, 4], testShip2);
+   board.receieveAttack([4, 4]);
+   expect(testShip2.hits).toBe(1);
+   expect(board.gameBoard[4][4].isHit).toBe(true);
+
+   board.receieveAttack([5, 4]);
+   expect(testShip2.hits).toBe(2);
+   expect(board.gameBoard[5][4].isHit).toBe(true);
+
+   //No ship on coordinate
+   expect(board.receieveAttack([9, 9])).toEqual(false);
+   expect(board.gameBoard[9][9].isHit).toBe(false);
 });

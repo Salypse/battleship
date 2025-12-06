@@ -4,7 +4,7 @@ export class Gameboard {
       this.gameBoard = Array.from({ length: GRIDSIZE }, () =>
          Array.from({ length: GRIDSIZE }, () => ({
             ship: null,
-            attacked: false,
+            isHit: undefined,
          }))
       );
 
@@ -24,6 +24,19 @@ export class Gameboard {
             this.gameBoard[x][y].ship = ship;
          }
       }
+   }
+
+   receieveAttack(coordinate) {
+      const x = coordinate[0];
+      const y = coordinate[1];
+
+      if (this.gameBoard[x][y].ship !== null) {
+         this.gameBoard[x][y].ship.hit();
+         this.gameBoard[x][y].isHit = true;
+         return true;
+      }
+      this.gameBoard[x][y].isHit = false;
+      return false;
    }
 
    findCells(coordinate, length) {
