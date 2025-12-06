@@ -31,9 +31,13 @@ export class Gameboard {
       const y = coordinate[1];
 
       if (this.gameBoard[x][y].ship !== null) {
-         this.gameBoard[x][y].ship.hit();
-         this.gameBoard[x][y].isHit = true;
-         return true;
+         //Check if coordinate was already guessed
+         if (this.gameBoard[x][y].isHit !== true) {
+            this.gameBoard[x][y].ship.hit();
+            this.gameBoard[x][y].isHit = true;
+            return true;
+         }
+         return;
       }
       this.gameBoard[x][y].isHit = false;
       return false;

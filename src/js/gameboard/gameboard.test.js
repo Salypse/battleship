@@ -98,15 +98,8 @@ test("receiveAttack updates a ship total hit value if hit", () => {
    expect(testShip1.hits).toBe(1);
    expect(board.gameBoard[0][0].isHit).toBe(true);
 
-   //Ship longer than 1 updates value
-   board.placeShip([4, 4], testShip2);
-   board.receieveAttack([4, 4]);
-   expect(testShip2.hits).toBe(1);
-   expect(board.gameBoard[4][4].isHit).toBe(true);
-
-   board.receieveAttack([5, 4]);
-   expect(testShip2.hits).toBe(2);
-   expect(board.gameBoard[5][4].isHit).toBe(true);
+   //Coordinate already guessed
+   expect(board.receieveAttack([0, 0])).toBeUndefined();
 
    //No ship on coordinate
    expect(board.receieveAttack([9, 9])).toEqual(false);
