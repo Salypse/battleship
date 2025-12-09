@@ -105,3 +105,20 @@ test("receiveAttack updates a ship total hit value if hit", () => {
    expect(board.receieveAttack([9, 9])).toEqual(false);
    expect(board.gameBoard[9][9].isHit).toBe(false);
 });
+
+test("If all ships are sunk call gameOver", () => {
+   const board = new Gameboard();
+
+   //Gameboard of only two ships
+   const testShip1 = new Ship(2);
+   const testShip2 = new Ship(3);
+
+   board.placeShip([0, 0], testShip1);
+   testShip1.hits = 2;
+   testShip1.hasSank = true;
+
+   board.placeShip([4, 4], testShip2);
+   expect(board.receieveAttack([4, 4])).toEqual(true);
+   expect(board.receieveAttack([5, 4])).toEqual(true);
+   expect(board.receieveAttack([6, 4])).toEqual("game over");
+});

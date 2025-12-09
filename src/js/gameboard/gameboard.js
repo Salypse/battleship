@@ -9,6 +9,7 @@ export class Gameboard {
       );
 
       this.rotateShip = false;
+      this.placedShips = [];
    }
 
    placeShip(coordinate, ship) {
@@ -23,6 +24,7 @@ export class Gameboard {
 
             this.gameBoard[x][y].ship = ship;
          }
+         this.placedShips.push(ship);
       }
    }
 
@@ -33,8 +35,13 @@ export class Gameboard {
       if (this.gameBoard[x][y].ship !== null) {
          //Check if coordinate was already guessed
          if (this.gameBoard[x][y].isHit !== true) {
+            //Update coordinates values
             this.gameBoard[x][y].ship.hit();
             this.gameBoard[x][y].isHit = true;
+
+            if (this.allShipsSunk()) {
+               return "game over";
+            }
             return true;
          }
          return;
@@ -72,6 +79,16 @@ export class Gameboard {
 
          //Check if any of the cells already have a ship
          if (this.gameBoard[x][y].ship !== null) {
+            return false;
+         }
+      }
+      return true;
+   }
+
+   allShipsSunk() {
+      for (let ship of this.placedShips) {
+         //If any ship has not sank game is not over
+         if (ship.hasSank === false) {
             return false;
          }
       }
