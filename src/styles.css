@@ -1,0 +1,79 @@
+:root {
+   --background-blue: #9fcbee;
+   --background-light-blue: #6497bf;
+
+   --text-blue: #01016f;
+   --text-gray: #5a5a5a;
+}
+
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+body {
+   display: grid;
+   grid-template-rows: auto 1fr auto;
+
+   background-color: var(--background-blue);
+
+   width: 100vw;
+   height: 100vh;
+}
+
+#header {
+   text-align: center;
+
+   padding: 1rem;
+
+   font-size: clamp(1rem, 10vw, 2.2rem);
+   font-weight: 700;
+   color: var(--text-gray);
+}
+
+#footer {
+   padding: 0.5rem;
+   text-align: center;
+   font-size: clamp(0.6rem, 2vw, 1rem);
+
+   background-color: var(--background-light-blue);
+}
+
+#game-type {
+   display: flex;
+   flex-direction: column;
+
+   align-items: center;
+   justify-content: center;
+   gap: 1rem;
+   height: auto;
+}
+
+button {
+   width: auto;
+   height: auto;
+
+   padding: 1rem;
+
+   font-size: clamp(0.8rem, 10vw, 1.5rem);
+   font-weight: 600;
+   color: var(--text-blue);
+   background-color: var(--background-light-blue);
+
+   outline: solid 0.2rem var(--text-gray);
+   border-radius: 1rem;
+   border: none;
+}
+
+button:hover {
+   cursor: pointer;
+
+   background-color: #4a7ba0;
+   color: #0303b4;
+}
+
+button:active {
+   background-color: var(--background-light-blue);
+   color: var(--text-blue);
+}
