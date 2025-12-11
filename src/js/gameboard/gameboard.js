@@ -52,6 +52,8 @@ export class Gameboard {
          tryShipPlacement(ship);
          this.rotateShip = Math.random() <= 0.5;
       }
+
+      this.prettyPrint();
    }
 
    receieveAttack(coordinate) {
@@ -119,6 +121,29 @@ export class Gameboard {
          }
       }
       return true;
+   }
+
+   prettyPrint() {
+      let display = "";
+
+      for (let y = 0; y < 10; y++) {
+         for (let x = 0; x < 10; x++) {
+            const cell = this.gameBoard[x][y];
+
+            if (cell.ship && cell.isHit === true) {
+               display += "X "; // ship hit
+            } else if (cell.ship) {
+               display += "S "; // ship present, not hit
+            } else if (cell.isHit === false) {
+               display += "O "; // missed attack
+            } else {
+               display += ". "; // empty cell
+            }
+         }
+         display += "\n"; // new row
+      }
+
+      console.log(display);
    }
 
    emptyGameBoard() {
