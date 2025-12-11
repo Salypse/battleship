@@ -1,18 +1,16 @@
 import "./styles.css";
+import { startGame } from "./js/game/startGame.js";
 
+const body = document.querySelector("body");
 const pvpButton = document.getElementById("pvp");
-const pvcButton = document.getElementById("pvc");
+const pveButton = document.getElementById("pve");
 
 pvpButton.addEventListener("click", () => {
-   const body = document.querySelector("body");
    body.innerHTML = "";
-
-   //Start pvp game function
+   startGame("pvp");
 });
 
-pvcButton.addEventListener("click", () => {
-   const body = document.querySelector("body");
+pveButton.addEventListener("click", () => {
    body.innerHTML = "";
-
-   //Start pvc game function
+   startGame("pve");
 });

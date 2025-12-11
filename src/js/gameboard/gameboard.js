@@ -1,12 +1,8 @@
+import { Ship } from "../ship/ship.js";
+
 export class Gameboard {
    constructor() {
-      const GRIDSIZE = 10;
-      this.gameBoard = Array.from({ length: GRIDSIZE }, () =>
-         Array.from({ length: GRIDSIZE }, () => ({
-            ship: null,
-            isHit: undefined,
-         }))
-      );
+      this.gameBoard = this.emptyGameBoard();
 
       this.rotateShip = false;
       this.placedShips = [];
@@ -15,7 +11,6 @@ export class Gameboard {
    placeShip(coordinate, ship) {
       //Find cells ship will be placed on
       const cellsToPlace = this.findCells(coordinate, ship.length);
-
       if (this.isValidCells(cellsToPlace)) {
          //Place ship in gameboard
          for (let cell of cellsToPlace) {
@@ -25,6 +20,37 @@ export class Gameboard {
             this.gameBoard[x][y].ship = ship;
          }
          this.placedShips.push(ship);
+      } else {
+         throw new Error();
+      }
+   }
+
+   placeShipsRandomly() {
+      this.emptyGameBoard();
+
+      const shipsToPlace = [
+         new Ship(5),
+         new Ship(4),
+         new Ship(3),
+         new Ship(3),
+         new Ship(2),
+      ];
+
+      const tryShipPlacement = (ship) => {
+         const randomX = Math.floor(Math.random() * 10);
+         const randomY = Math.floor(Math.random() * 10);
+
+         //If placeShip [randomX,randomY] returns false (one of the cells had a ship) choose another location
+         try {
+            this.placeShip([randomX, randomY], ship);
+         } catch {
+            tryShipPlacement(ship);
+         }
+      };
+
+      for (let ship of shipsToPlace) {
+         tryShipPlacement(ship);
+         this.rotateShip = Math.random() <= 0.5;
       }
    }
 
@@ -93,5 +119,15 @@ export class Gameboard {
          }
       }
       return true;
+   }
+
+   emptyGameBoard() {
+      const GRIDSIZE = 10;
+      this.gameBoard = Array.from({ length: GRIDSIZE }, () =>
+         Array.from({ length: GRIDSIZE }, () => ({
+            ship: null,
+            isHit: undefined,
+         }))
+      );
    }
 }
