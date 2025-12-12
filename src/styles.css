@@ -4,6 +4,7 @@
 
    --text-blue: #01016f;
    --text-gray: #5a5a5a;
+   --text-red: #d8031c;
 }
 
 * {
@@ -85,4 +86,28 @@ button:hover {
 button:active {
    background-color: var(--background-light-blue);
    color: var(--text-blue);
+}
+
+#placement-grid {
+   display: grid;
+   grid-template-columns: repeat(10, 1fr);
+   grid-template-rows: repeat(10, 1fr);
+   gap: 0.2rem;
+
+   width: min(70vw, 70vh);
+   height: min(70vw, 70vh);
+
+   border: solid 1rem var(--text-blue);
+   background-color: var(--text-gray);
+}
+
+.grid-item {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+   background-color: var(--background-blue);
+
+   font-size: min(3vw, 5vw);
+   color: var(--text-red);
 }

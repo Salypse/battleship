@@ -1,3 +1,5 @@
+import { updatePlacementGridDisplay } from "./grid/grid-display";
+
 export function placeShips(player) {
    return new Promise((resolve) => {
       const body = document.querySelector("body");
@@ -14,6 +16,7 @@ export function placeShips(player) {
       randomPlacementButton.textContent = "Random";
       randomPlacementButton.addEventListener("click", () => {
          player.gameBoard.placeShipsRandomly();
+         updatePlacementGridDisplay(player);
       });
 
       //Submit ship placement choices
@@ -26,8 +29,20 @@ export function placeShips(player) {
          resolve();
       });
 
+      //Initial grid placement display
+      const placementGrid = document.createElement("div");
+      placementGrid.id = "placement-grid";
+      for (let i = 0; i < 10; i++) {
+         for (let j = 0; j < 10; j++) {
+            const node = document.createElement("p");
+            node.id = `row-${i + 1} column-${j + 1}`;
+            node.classList.add("grid-item");
+            placementGrid.append(node);
+         }
+      }
+
       placeShipsHeader.append(randomPlacementButton, submitPlacementButton);
-      placeShipsPage.append(placeShipsHeader);
+      placeShipsPage.append(placeShipsHeader, placementGrid);
       body.append(placeShipsPage);
    });
 }

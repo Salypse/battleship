@@ -52,7 +52,6 @@ export class Gameboard {
          tryShipPlacement(ship);
          this.rotateShip = Math.random() <= 0.5;
       }
-      this.prettyPrint();
    }
 
    receieveAttack(coordinate) {
@@ -125,8 +124,8 @@ export class Gameboard {
    prettyPrint() {
       let display = "";
 
-      for (let y = 0; y < 10; y++) {
-         for (let x = 0; x < 10; x++) {
+      for (let x = 0; x < 10; x++) {
+         for (let y = 0; y < 10; y++) {
             const cell = this.grid[x][y];
 
             if (cell.ship && cell.isHit === true) {
