@@ -9,8 +9,8 @@ export async function startGame(type) {
 
          //Placement phase
          //Wait for player to press submit button before continuing to next player
-         await placeShips(player1);
-         await placeShips(player2);
+         await placeShips(player1, "Player 1");
+         await placeShips(player2, "Player 2");
          break;
 
       case "pve":

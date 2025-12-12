@@ -1,11 +1,15 @@
 import { updatePlacementGridDisplay } from "./grid/grid-display";
 
-export function placeShips(player) {
+export function placeShips(player, turnText = "Player") {
    return new Promise((resolve) => {
       const body = document.querySelector("body");
 
       const placeShipsPage = document.createElement("div");
       placeShipsPage.id = "place-ships-page";
+
+      const currentTurnText = document.createElement("p");
+      currentTurnText.id = "current-turn";
+      currentTurnText.textContent = `${turnText}: Place your ships`;
 
       const placeShipsHeader = document.createElement("div");
       placeShipsHeader.id = "place-ships-header";
@@ -42,7 +46,7 @@ export function placeShips(player) {
       }
 
       placeShipsHeader.append(randomPlacementButton, submitPlacementButton);
-      placeShipsPage.append(placeShipsHeader, placementGrid);
+      placeShipsPage.append(currentTurnText, placeShipsHeader, placementGrid);
       body.append(placeShipsPage);
    });
 }

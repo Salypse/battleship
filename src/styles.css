@@ -66,7 +66,7 @@ button {
 
    padding: 1rem;
 
-   font-size: clamp(1rem, 4vw, 1.5rem);
+   font-size: clamp(1rem, 4vw, 1.4rem);
    font-weight: 600;
    color: var(--text-blue);
    background-color: var(--background-light-blue);
@@ -86,6 +86,15 @@ button:hover {
 button:active {
    background-color: var(--background-light-blue);
    color: var(--text-blue);
+}
+
+#current-turn {
+   text-align: center;
+   font-size: clamp(1.1rem, 5vw, 1.8rem);
+   font-weight: 700;
+   color: var(--text-gray);
+
+   text-decoration: underline;
 }
 
 #place-ships-header {
