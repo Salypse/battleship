@@ -19,6 +19,7 @@ export function placeShips(player, turnText = "Player") {
       randomPlacementButton.id = "random-placement";
       randomPlacementButton.textContent = "Random";
       randomPlacementButton.addEventListener("click", () => {
+         errorText.style.display = "none";
          player.gameBoard.placeShipsRandomly();
          updatePlacementGridDisplay(player);
       });
@@ -28,10 +29,19 @@ export function placeShips(player, turnText = "Player") {
       submitPlacementButton.id = "submit-placement";
       submitPlacementButton.textContent = "Submit";
       submitPlacementButton.addEventListener("click", () => {
-         placeShipsPage.remove();
-         //When Player submits return the promise
-         resolve();
+         //Check if user has placed ships
+         if (player.gameBoard.placedShips.length >= 5) {
+            placeShipsPage.remove();
+            //When Player submits return the promise
+            resolve();
+         } else {
+            errorText.style.display = "block";
+            errorText.textContent = "Place ships before submitting";
+         }
       });
+
+      const errorText = document.createElement("p");
+      errorText.id = "error-text";
 
       //Initial grid placement display
       const placementGrid = document.createElement("div");
@@ -46,7 +56,12 @@ export function placeShips(player, turnText = "Player") {
       }
 
       placeShipsHeader.append(randomPlacementButton, submitPlacementButton);
-      placeShipsPage.append(currentTurnText, placeShipsHeader, placementGrid);
+      placeShipsPage.append(
+         currentTurnText,
+         placeShipsHeader,
+         errorText,
+         placementGrid
+      );
       body.append(placeShipsPage);
    });
 }
