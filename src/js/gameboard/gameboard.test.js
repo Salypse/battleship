@@ -5,14 +5,14 @@ import { Ship } from "../ship/ship.js";
 test("Create a 10x10 grid", () => {
    const board = new Gameboard();
 
-   expect(board.gameBoard.length).toBe(10);
-   board.gameBoard.forEach((row) => expect(row.length).toBe(10));
+   expect(board.grid.length).toBe(10);
+   board.grid.forEach((row) => expect(row.length).toBe(10));
 });
 
 test("Every grid cell has correct default values", () => {
    const board = new Gameboard();
 
-   board.gameBoard.forEach((row) =>
+   board.grid.forEach((row) =>
       row.forEach(
          (cell) => (
             expect(cell).toHaveProperty("ship", null),
@@ -56,7 +56,7 @@ test("Correctly determines if cells are invalid", () => {
    ).toBe(false);
 
    //Given cell already has a ship
-   board.gameBoard[0][0].ship = true;
+   board.grid[0][0].ship = true;
    expect(
       board.isValidCells([
          [0, 0],
@@ -73,19 +73,19 @@ test("Place ship onto gameboard", () => {
    const testShip1 = new Ship(4);
 
    board.placeShip([0, 0], testShip1);
-   expect(board.gameBoard[0][0]).toHaveProperty("ship", testShip1);
-   expect(board.gameBoard[1][0]).toHaveProperty("ship", testShip1);
-   expect(board.gameBoard[2][0]).toHaveProperty("ship", testShip1);
-   expect(board.gameBoard[3][0]).toHaveProperty("ship", testShip1);
+   expect(board.grid[0][0]).toHaveProperty("ship", testShip1);
+   expect(board.grid[1][0]).toHaveProperty("ship", testShip1);
+   expect(board.grid[2][0]).toHaveProperty("ship", testShip1);
+   expect(board.grid[3][0]).toHaveProperty("ship", testShip1);
 
    //Horizontal placement
    const testShip2 = new Ship(3);
    board.rotateShip = true;
 
    board.placeShip([4, 5], testShip2);
-   expect(board.gameBoard[4][5]).toHaveProperty("ship", testShip2);
-   expect(board.gameBoard[4][4]).toHaveProperty("ship", testShip2);
-   expect(board.gameBoard[4][3]).toHaveProperty("ship", testShip2);
+   expect(board.grid[4][5]).toHaveProperty("ship", testShip2);
+   expect(board.grid[4][4]).toHaveProperty("ship", testShip2);
+   expect(board.grid[4][3]).toHaveProperty("ship", testShip2);
 });
 
 test("receiveAttack updates a ship total hit value if hit", () => {
@@ -96,14 +96,14 @@ test("receiveAttack updates a ship total hit value if hit", () => {
    board.placeShip([0, 0], testShip1);
    board.receieveAttack([0, 0]);
    expect(testShip1.hits).toBe(1);
-   expect(board.gameBoard[0][0].isHit).toBe(true);
+   expect(board.grid[0][0].isHit).toBe(true);
 
    //Coordinate already guessed
    expect(board.receieveAttack([0, 0])).toBeUndefined();
 
    //No ship on coordinate
    expect(board.receieveAttack([9, 9])).toEqual(false);
-   expect(board.gameBoard[9][9].isHit).toBe(false);
+   expect(board.grid[9][9].isHit).toBe(false);
 });
 
 test("If all ships are sunk call gameOver", () => {

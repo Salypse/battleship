@@ -2,7 +2,7 @@ import { Ship } from "../ship/ship.js";
 
 export class Gameboard {
    constructor() {
-      this.gameBoard = this.emptyGameBoard();
+      this.grid = this.emptyGrid();
 
       this.rotateShip = false;
       this.placedShips = [];
@@ -12,12 +12,12 @@ export class Gameboard {
       //Find cells ship will be placed on
       const cellsToPlace = this.findCells(coordinate, ship.length);
       if (this.isValidCells(cellsToPlace)) {
-         //Place ship in gameboard
+         //Place ship in grid
          for (let cell of cellsToPlace) {
             const x = cell[0];
             const y = cell[1];
 
-            this.gameBoard[x][y].ship = ship;
+            this.grid[x][y].ship = ship;
          }
          this.placedShips.push(ship);
       } else {
@@ -26,7 +26,7 @@ export class Gameboard {
    }
 
    placeShipsRandomly() {
-      this.emptyGameBoard();
+      this.grid = this.emptyGrid();
 
       const shipsToPlace = [
          new Ship(5),
@@ -52,7 +52,6 @@ export class Gameboard {
          tryShipPlacement(ship);
          this.rotateShip = Math.random() <= 0.5;
       }
-
       this.prettyPrint();
    }
 
@@ -60,12 +59,12 @@ export class Gameboard {
       const x = coordinate[0];
       const y = coordinate[1];
 
-      if (this.gameBoard[x][y].ship !== null) {
+      if (this.grid[x][y].ship !== null) {
          //Check if coordinate was already guessed
-         if (this.gameBoard[x][y].isHit !== true) {
+         if (this.grid[x][y].isHit !== true) {
             //Update coordinates values
-            this.gameBoard[x][y].ship.hit();
-            this.gameBoard[x][y].isHit = true;
+            this.grid[x][y].ship.hit();
+            this.grid[x][y].isHit = true;
 
             if (this.allShipsSunk()) {
                return "game over";
@@ -74,7 +73,7 @@ export class Gameboard {
          }
          return;
       }
-      this.gameBoard[x][y].isHit = false;
+      this.grid[x][y].isHit = false;
       return false;
    }
 
@@ -106,7 +105,7 @@ export class Gameboard {
          }
 
          //Check if any of the cells already have a ship
-         if (this.gameBoard[x][y].ship !== null) {
+         if (this.grid[x][y].ship !== null) {
             return false;
          }
       }
@@ -128,7 +127,7 @@ export class Gameboard {
 
       for (let y = 0; y < 10; y++) {
          for (let x = 0; x < 10; x++) {
-            const cell = this.gameBoard[x][y];
+            const cell = this.grid[x][y];
 
             if (cell.ship && cell.isHit === true) {
                display += "X "; // ship hit
@@ -146,9 +145,9 @@ export class Gameboard {
       console.log(display);
    }
 
-   emptyGameBoard() {
+   emptyGrid() {
       const GRIDSIZE = 10;
-      this.gameBoard = Array.from({ length: GRIDSIZE }, () =>
+      return Array.from({ length: GRIDSIZE }, () =>
          Array.from({ length: GRIDSIZE }, () => ({
             ship: null,
             isHit: undefined,
