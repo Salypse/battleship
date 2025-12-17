@@ -5,6 +5,11 @@ export function updatePlacementGridDisplay(player) {
          if (player.gameBoard.grid[i][j].ship) {
             node.textContent = "X";
             node.classList.add("ship-grid-item");
+         } else if (
+            player.gameBoard.grid[i][j].isHit &&
+            !player.gameBoard.grid[i][j].ship
+         ) {
+            node.textContent = "O";
          } else {
             node.textContent = "";
          }
