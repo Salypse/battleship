@@ -102,8 +102,9 @@ test("receiveAttack updates a ship total hit value if hit", () => {
    expect(board.receieveAttack([0, 0])).toBeUndefined();
 
    //No ship on coordinate
-   expect(board.receieveAttack([9, 9])).toEqual(false);
-   expect(board.grid[9][9].isHit).toBe(false);
+   expect(board.receieveAttack([9, 9])).toBe(false);
+   expect(board.grid[9][9].isHit).toEqual(true) &&
+      expect(board.grid[9][9].ship).toEqual(null);
 });
 
 test("If all ships are sunk call gameOver", () => {

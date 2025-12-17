@@ -72,7 +72,7 @@ export class Gameboard {
          }
          return;
       }
-      this.grid[x][y].isHit = false;
+      this.grid[x][y].isHit = true;
       return false;
    }
 

@@ -46,6 +46,7 @@ export function placeShips(player, turnText = "Player") {
       //Initial grid placement display
       const placementGrid = document.createElement("div");
       placementGrid.id = "placement-grid";
+      placementGrid.classList.add("grid");
       for (let i = 0; i < 10; i++) {
          for (let j = 0; j < 10; j++) {
             const node = document.createElement("p");
