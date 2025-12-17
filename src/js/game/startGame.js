@@ -5,6 +5,9 @@ import { gameOverScreen } from "./gameOverScreen.js";
 import { passScreen } from "./passScreen.js";
 
 export async function startGame(type) {
+   let currentTurn = 0;
+   let result = "";
+
    switch (type) {
       case "pvp":
          const player1 = new Player("player");
@@ -16,8 +19,6 @@ export async function startGame(type) {
          await placeShips(player2, "Player 2");
 
          //Guessing phase
-         let currentTurn = 0;
-         let result = "";
 
          //WHen Result is "win" end game
          while (result !== "win") {
@@ -36,7 +37,37 @@ export async function startGame(type) {
          break;
 
       case "pve":
-         console.log("pve");
+         const player = new Player("player");
+         const computer = new Player("computer");
+
+         //Placement Phase
+         await placeShips(player, "Player");
+         computer.gameBoard.placeShipsRandomly();
+
+         //Guessing Phase
+         while (result !== "win" && result !== "game over") {
+            if (currentTurn === 0) {
+               result = await guessShip(player, computer, "Player");
+               currentTurn = 1;
+            } else {
+               //If random coordinate has already been guessed try another coordinate
+               const tryCoordinateAttack = () => {
+                  const randomX = Math.floor(Math.random() * 10);
+                  const randomY = Math.floor(Math.random() * 10);
+
+                  if (player.gameBoard.grid[randomX][randomY].isHit) {
+                     return tryCoordinateAttack();
+                  } else {
+                     return player.gameBoard.receieveAttack([randomX, randomY]);
+                  }
+               };
+
+               result = tryCoordinateAttack();
+               currentTurn = 0;
+            }
+         }
+
+         gameOverScreen();
          break;
    }
 }
