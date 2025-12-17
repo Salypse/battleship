@@ -171,7 +171,8 @@ button:active {
    background-color: #b2d7f5;
 }
 
-#game-over {
+#game-over,
+#pass-text {
    font-size: clamp(2rem, 6vw, 3vw);
    font-weight: 700;
    color: var(--text-blue);

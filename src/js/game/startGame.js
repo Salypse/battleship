@@ -2,6 +2,7 @@ import { Player } from "../player/player.js";
 import { placeShips } from "./placeShip.js";
 import { guessShip } from "./guessShip.js";
 import { gameOverScreen } from "./gameOverScreen.js";
+import { passScreen } from "./passScreen.js";
 
 export async function startGame(type) {
    switch (type) {
@@ -22,9 +23,11 @@ export async function startGame(type) {
          while (result !== "win") {
             if (currentTurn === 0) {
                result = await guessShip(player1, player2, "Player 1");
+               await passScreen();
                currentTurn = 1;
             } else {
                result = await guessShip(player2, player1, "Player 2");
+               await passScreen();
                currentTurn = 0;
             }
          }
