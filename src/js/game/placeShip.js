@@ -1,4 +1,5 @@
 import { updatePlacementGridDisplay } from "./grid/grid-display";
+import rotateSvg from "../../images/rotate.svg";
 
 export function placeShips(player, turnText = "Player") {
    return new Promise((resolve) => {
@@ -43,6 +44,31 @@ export function placeShips(player, turnText = "Player") {
       const errorText = document.createElement("p");
       errorText.id = "error-text";
 
+      //Drag and drop ship options
+      const shipOptions = document.createElement("div");
+      shipOptions.id = "ship-options";
+
+      const optionsHeader = document.createElement("div");
+      optionsHeader.id = "options-header";
+
+      const headerText = document.createElement("p");
+      headerText.id = "header-text";
+      headerText.textContent = "Ships";
+
+      const rotateImage = document.createElement("img");
+      rotateImage.src = rotateSvg;
+
+      const rotateButton = document.createElement("button");
+      rotateButton.id = "rotate";
+      rotateButton.addEventListener("click", () => {
+         player.gameBoard.rotate =
+            player.gameBoard.rotate === true ? false : true;
+      });
+      rotateButton.append(rotateImage);
+
+      optionsHeader.append(headerText, rotateButton);
+      shipOptions.append(optionsHeader);
+
       //Initial grid placement display
       const placementGrid = document.createElement("div");
       placementGrid.id = "placement-grid";
@@ -61,6 +87,7 @@ export function placeShips(player, turnText = "Player") {
          currentTurnText,
          placeShipsHeader,
          errorText,
+         shipOptions,
          placementGrid
       );
       body.append(placeShipsPage);
