@@ -63,11 +63,36 @@ export function placeShips(player, turnText = "Player") {
       rotateButton.addEventListener("click", () => {
          player.gameBoard.rotate =
             player.gameBoard.rotate === true ? false : true;
+
+         const shipOptions = document.querySelectorAll(".drag-ship");
+         for (const ship of shipOptions) {
+            if (player.gameBoard.rotate === true) {
+               ship.style.flexDirection = "column";
+            } else {
+               ship.style.flexDirection = "row";
+            }
+         }
       });
       rotateButton.append(rotateImage);
 
+      //Draggable Ships
+      const dragShips = document.createElement("div");
+      dragShips.id = "drag-ships";
+
+      const lengths = [2, 3, 3, 4, 5];
+      for (length of lengths) {
+         const ship = document.createElement("div");
+         ship.classList.add("drag-ship");
+         for (let i = 0; i < length; i++) {
+            const shipSquare = document.createElement("div");
+            shipSquare.classList.add("ship-square");
+            ship.append(shipSquare);
+         }
+         dragShips.append(ship);
+      }
+
       optionsHeader.append(headerText, rotateButton);
-      shipOptions.append(optionsHeader);
+      shipOptions.append(optionsHeader, dragShips);
 
       //Initial grid placement display
       const placementGrid = document.createElement("div");

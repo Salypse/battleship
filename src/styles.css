@@ -124,7 +124,10 @@ button img {
 }
 
 #ship-options {
-   width: min(15vw, 15vh);
+   display: grid;
+   grid-template-rows: auto 1fr;
+
+   width: min(20vw, 20vh);
    height: min(70vw, 70vh);
 
    background-color: var(--background-light-blue);
@@ -150,6 +153,28 @@ button img {
 #rotate {
    font-size: clamp(0.7rem, 2vw, 1rem);
    padding: 0.7rem;
+}
+
+#drag-ships {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+
+   padding: 1rem;
+}
+
+.drag-ship {
+   display: flex;
+   flex-direction: row;
+
+   align-items: center;
+   justify-content: center;
+}
+.ship-square {
+   width: min(2.5vw, 2.5vh);
+   height: min(2.5vw, 2.5vh);
+
+   border: solid var(--text-blue) 0.2rem;
 }
 
 #error-text {
