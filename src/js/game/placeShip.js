@@ -124,9 +124,11 @@ export function placeShips(player, turnText = "Player") {
                const shipItem = document.getElementById(shipId);
 
                const newShip = new Ship(shipLength);
-               player.gameBoard.placeShip([i, j], newShip);
-               shipItem.remove();
 
+               //Allow ship placement if node is a valid location
+               if (player.gameBoard.tryShipPlacement([i, j], newShip)) {
+                  shipItem.remove();
+               }
                updatePlacementGridDisplay(player);
             });
             placementGrid.append(node);

@@ -36,20 +36,8 @@ export class Gameboard {
          new Ship(2),
       ];
 
-      const tryShipPlacement = (ship) => {
-         const randomX = Math.floor(Math.random() * 10);
-         const randomY = Math.floor(Math.random() * 10);
-
-         //If placeShip [randomX,randomY] returns false (one of the cells had a ship) choose another location
-         try {
-            this.placeShip([randomX, randomY], ship);
-         } catch {
-            tryShipPlacement(ship);
-         }
-      };
-
       for (let ship of shipsToPlace) {
-         tryShipPlacement(ship);
+         this.tryRandomShipPlacement(ship);
          this.rotateShip = Math.random() <= 0.5;
       }
    }
@@ -152,5 +140,25 @@ export class Gameboard {
             isHit: undefined,
          }))
       );
+   }
+
+   tryShipPlacement(coordinate, ship) {
+      const cells = this.findCells(coordinate, ship.length);
+      if (!this.isValidCells(cells)) return false;
+
+      this.placeShip(coordinate, ship);
+      return true;
+   }
+
+   tryRandomShipPlacement(ship) {
+      const randomX = Math.floor(Math.random() * 10);
+      const randomY = Math.floor(Math.random() * 10);
+
+      //If placeShip [randomX,randomY] returns false (one of the cells had a ship) choose another location
+      try {
+         this.placeShip([randomX, randomY], ship);
+      } catch {
+         this.tryRandomShipPlacement(ship);
+      }
    }
 }
