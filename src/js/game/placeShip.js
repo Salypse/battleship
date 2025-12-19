@@ -87,7 +87,8 @@ export function placeShips(player, turnText = "Player") {
 
          ship.draggable = true;
          ship.addEventListener("dragstart", (event) => {
-            event.dataTransfer.setData("length", event.target.id.at(-1));
+            event.dataTransfer.setData("ship-id", event.target.id);
+            event.dataTransfer.setData("ship-item", event.target);
          });
 
          for (let i = 0; i < length; i++) {
@@ -117,9 +118,14 @@ export function placeShips(player, turnText = "Player") {
             });
             node.addEventListener("drop", (event) => {
                event.preventDefault();
-               const shipLength = event.dataTransfer.getData("length");
+
+               const shipId = event.dataTransfer.getData("ship-id");
+               const shipLength = shipId.at(-1);
+               const shipItem = document.getElementById(shipId);
+
                const newShip = new Ship(shipLength);
                player.gameBoard.placeShip([i, j], newShip);
+               shipItem.remove();
 
                updatePlacementGridDisplay(player);
             });
