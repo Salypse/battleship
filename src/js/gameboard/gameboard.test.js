@@ -28,8 +28,8 @@ test("Find correct cells for given coordinate", () => {
    //No rotate
    expect(board.findCells([5, 5], 3)).toEqual([
       [5, 5],
-      [6, 5],
-      [7, 5],
+      [5, 6],
+      [5, 7],
    ]);
 
    //Rotate
@@ -37,9 +37,9 @@ test("Find correct cells for given coordinate", () => {
 
    expect(board.findCells([3, 6], 4)).toEqual([
       [3, 6],
-      [3, 5],
-      [3, 4],
-      [3, 3],
+      [4, 6],
+      [5, 6],
+      [6, 6],
    ]);
 });
 
@@ -74,9 +74,9 @@ test("Place ship onto gameboard", () => {
 
    board.placeShip([0, 0], testShip1);
    expect(board.grid[0][0]).toHaveProperty("ship", testShip1);
-   expect(board.grid[1][0]).toHaveProperty("ship", testShip1);
-   expect(board.grid[2][0]).toHaveProperty("ship", testShip1);
-   expect(board.grid[3][0]).toHaveProperty("ship", testShip1);
+   expect(board.grid[0][1]).toHaveProperty("ship", testShip1);
+   expect(board.grid[0][2]).toHaveProperty("ship", testShip1);
+   expect(board.grid[0][3]).toHaveProperty("ship", testShip1);
 
    //Horizontal placement
    const testShip2 = new Ship(3);
@@ -84,8 +84,8 @@ test("Place ship onto gameboard", () => {
 
    board.placeShip([4, 5], testShip2);
    expect(board.grid[4][5]).toHaveProperty("ship", testShip2);
-   expect(board.grid[4][4]).toHaveProperty("ship", testShip2);
-   expect(board.grid[4][3]).toHaveProperty("ship", testShip2);
+   expect(board.grid[5][5]).toHaveProperty("ship", testShip2);
+   expect(board.grid[6][5]).toHaveProperty("ship", testShip2);
 });
 
 test("receiveAttack updates a ship total hit value if hit", () => {
@@ -120,6 +120,6 @@ test("If all ships are sunk call gameOver", () => {
 
    board.placeShip([4, 4], testShip2);
    expect(board.receieveAttack([4, 4])).toEqual(true);
-   expect(board.receieveAttack([5, 4])).toEqual(true);
-   expect(board.receieveAttack([6, 4])).toEqual("game over");
+   expect(board.receieveAttack([4, 5])).toEqual(true);
+   expect(board.receieveAttack([4, 6])).toEqual("game over");
 });
