@@ -84,9 +84,9 @@ export class Gameboard {
 
       while (cells.length < length) {
          if (this.rotateShip === true) {
-            cells.push([x, --y]);
-         } else {
             cells.push([++x, y]);
+         } else {
+            cells.push([x, ++y]);
          }
       }
       return cells;

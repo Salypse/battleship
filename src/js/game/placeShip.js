@@ -1,5 +1,6 @@
 import { updatePlacementGridDisplay } from "./grid/grid-display";
 import rotateSvg from "../../images/rotate.svg";
+import { Ship } from "../ship/ship.js";
 
 export function placeShips(player, turnText = "Player") {
    return new Promise((resolve) => {
@@ -61,12 +62,11 @@ export function placeShips(player, turnText = "Player") {
       const rotateButton = document.createElement("button");
       rotateButton.id = "rotate";
       rotateButton.addEventListener("click", () => {
-         player.gameBoard.rotate =
-            player.gameBoard.rotate === true ? false : true;
+         player.gameBoard.rotateShip = !player.gameBoard.rotateShip;
 
          const shipOptions = document.querySelectorAll(".drag-ship");
          for (const ship of shipOptions) {
-            if (player.gameBoard.rotate === true) {
+            if (player.gameBoard.rotateShip === true) {
                ship.style.flexDirection = "column";
             } else {
                ship.style.flexDirection = "row";
@@ -82,7 +82,14 @@ export function placeShips(player, turnText = "Player") {
       const lengths = [2, 3, 3, 4, 5];
       for (length of lengths) {
          const ship = document.createElement("div");
+         ship.id = `ship-length-${length}`;
          ship.classList.add("drag-ship");
+
+         ship.draggable = true;
+         ship.addEventListener("dragstart", (event) => {
+            event.dataTransfer.setData("length", event.target.id.at(-1));
+         });
+
          for (let i = 0; i < length; i++) {
             const shipSquare = document.createElement("div");
             shipSquare.classList.add("ship-square");
@@ -103,6 +110,19 @@ export function placeShips(player, turnText = "Player") {
             const node = document.createElement("p");
             node.id = `row-${i + 1} column-${j + 1}`;
             node.classList.add("grid-item");
+
+            //Allow ships to be dragged on to a node an placed
+            node.addEventListener("dragover", (event) => {
+               event.preventDefault();
+            });
+            node.addEventListener("drop", (event) => {
+               event.preventDefault();
+               const shipLength = event.dataTransfer.getData("length");
+               const newShip = new Ship(shipLength);
+               player.gameBoard.placeShip([i, j], newShip);
+
+               updatePlacementGridDisplay(player);
+            });
             placementGrid.append(node);
          }
       }
