@@ -26,6 +26,17 @@ export function placeShips(player, turnText = "Player") {
          updatePlacementGridDisplay(player);
       });
 
+      //Clear button that allows user to clear their current placements
+      const clearButton = document.createElement("button");
+      clearButton.id = "clear";
+      clearButton.textContent = "Clear";
+      clearButton.addEventListener("click", () => {
+         player.gameBoard.grid = player.gameBoard.emptyGrid();
+         dragShips.innerHTML = "";
+         createDraggableShips();
+         updatePlacementGridDisplay(player);
+      });
+
       //Submit ship placement choices
       const submitPlacementButton = document.createElement("button");
       submitPlacementButton.id = "submit-placement";
@@ -79,28 +90,7 @@ export function placeShips(player, turnText = "Player") {
       const dragShips = document.createElement("div");
       dragShips.id = "drag-ships";
 
-      const lengths = [2, 3, 3, 4, 5];
-      for (length of lengths) {
-         const ship = document.createElement("div");
-         ship.id = `ship-length-${length}`;
-         ship.classList.add("drag-ship");
-
-         ship.draggable = true;
-         ship.addEventListener("dragstart", (event) => {
-            event.dataTransfer.setData("ship-id", event.target.id);
-            event.dataTransfer.setData("ship-item", event.target);
-         });
-
-         for (let i = 0; i < length; i++) {
-            const shipSquare = document.createElement("div");
-            shipSquare.classList.add("ship-square");
-            ship.append(shipSquare);
-         }
-         dragShips.append(ship);
-      }
-
       optionsHeader.append(headerText, rotateButton);
-      shipOptions.append(optionsHeader, dragShips);
 
       //Initial grid placement display
       const placementGrid = document.createElement("div");
@@ -135,7 +125,14 @@ export function placeShips(player, turnText = "Player") {
          }
       }
 
-      placeShipsHeader.append(randomPlacementButton, submitPlacementButton);
+      placeShipsHeader.append(
+         randomPlacementButton,
+         clearButton,
+         submitPlacementButton
+      );
+
+      shipOptions.append(optionsHeader, dragShips);
+
       placeShipsPage.append(
          currentTurnText,
          placeShipsHeader,
@@ -143,6 +140,32 @@ export function placeShips(player, turnText = "Player") {
          shipOptions,
          placementGrid
       );
+
       body.append(placeShipsPage);
+      createDraggableShips();
    });
+}
+
+function createDraggableShips() {
+   const dragShips = document.getElementById("drag-ships");
+
+   const lengths = [2, 3, 3, 4, 5];
+   for (length of lengths) {
+      const ship = document.createElement("div");
+      ship.id = `ship-length-${length}`;
+      ship.classList.add("drag-ship");
+
+      ship.draggable = true;
+      ship.addEventListener("dragstart", (event) => {
+         event.dataTransfer.setData("ship-id", event.target.id);
+         event.dataTransfer.setData("ship-item", event.target);
+      });
+
+      for (let i = 0; i < length; i++) {
+         const shipSquare = document.createElement("div");
+         shipSquare.classList.add("ship-square");
+         ship.append(shipSquare);
+      }
+      dragShips.append(ship);
+   }
 }
