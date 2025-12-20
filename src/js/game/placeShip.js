@@ -32,6 +32,7 @@ export function placeShips(player, turnText = "Player") {
       clearButton.textContent = "Clear";
       clearButton.addEventListener("click", () => {
          player.gameBoard.grid = player.gameBoard.emptyGrid();
+         player.gameBoard.rotateShip = false;
          dragShips.innerHTML = "";
          createDraggableShips();
          updatePlacementGridDisplay(player);
