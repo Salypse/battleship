@@ -24,7 +24,7 @@ export function placeShips(player, turnText = "Player") {
          errorText.style.display = "none";
          player.gameBoard.placeShipsRandomly();
          updatePlacementGridDisplay(player);
-         player.gameBoard.prettyPrint();
+         createDraggableShips();
       });
 
       //Clear button that allows user to clear their current placements
@@ -153,6 +153,7 @@ export function placeShips(player, turnText = "Player") {
 
 function createDraggableShips() {
    const dragShips = document.getElementById("drag-ships");
+   dragShips.innerHTML = "";
 
    const lengths = [2, 3, 3, 4, 5];
    for (length of lengths) {
