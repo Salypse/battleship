@@ -121,6 +121,7 @@ export function placeShips(player, turnText = "Player") {
 
                   //Allow ship placement if node is a valid location
                   if (player.gameBoard.tryShipPlacement([i, j], newShip)) {
+                     errorText.style.display = "none";
                      shipItem.remove();
                   }
                   updatePlacementGridDisplay(player);
