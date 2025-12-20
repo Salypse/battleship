@@ -24,6 +24,7 @@ export function placeShips(player, turnText = "Player") {
          errorText.style.display = "none";
          player.gameBoard.placeShipsRandomly();
          updatePlacementGridDisplay(player);
+         player.gameBoard.prettyPrint();
       });
 
       //Clear button that allows user to clear their current placements
@@ -33,6 +34,7 @@ export function placeShips(player, turnText = "Player") {
       clearButton.addEventListener("click", () => {
          player.gameBoard.grid = player.gameBoard.emptyGrid();
          player.gameBoard.rotateShip = false;
+         player.gameBoard.placedShips = [];
          dragShips.innerHTML = "";
          createDraggableShips();
          updatePlacementGridDisplay(player);
@@ -108,19 +110,21 @@ export function placeShips(player, turnText = "Player") {
                event.preventDefault();
             });
             node.addEventListener("drop", (event) => {
-               event.preventDefault();
+               if (player.gameBoard.placedShips.length <= 5) {
+                  event.preventDefault();
 
-               const shipId = event.dataTransfer.getData("ship-id");
-               const shipLength = shipId.at(-1);
-               const shipItem = document.getElementById(shipId);
+                  const shipId = event.dataTransfer.getData("ship-id");
+                  const shipLength = shipId.at(-1);
+                  const shipItem = document.getElementById(shipId);
 
-               const newShip = new Ship(shipLength);
+                  const newShip = new Ship(shipLength);
 
-               //Allow ship placement if node is a valid location
-               if (player.gameBoard.tryShipPlacement([i, j], newShip)) {
-                  shipItem.remove();
+                  //Allow ship placement if node is a valid location
+                  if (player.gameBoard.tryShipPlacement([i, j], newShip)) {
+                     shipItem.remove();
+                  }
+                  updatePlacementGridDisplay(player);
                }
-               updatePlacementGridDisplay(player);
             });
             placementGrid.append(node);
          }
